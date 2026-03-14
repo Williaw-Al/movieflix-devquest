@@ -1,12 +1,15 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
 import { log } from "node:console";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "../swagger.json";
 
 const port = 3000;
 const app = express();
 const prisma = new PrismaClient();
 
 app.use(express.json());
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/movies", async (_, res) => {
     const movies = await prisma.movie.findMany({
@@ -103,6 +106,33 @@ app.delete("/movies/:id", async (req, res) => {
     }
 
     res.status(200).send();
+});
+
+app.get("/movies/:genreName", async (req, res) => {
+    const genreName = req.params.genreName;
+
+    try {
+        const moviesFilteredbyGenreName = await prisma.movie.findMany({
+            include: {
+                genres: true,
+                languages: true,
+            },
+            where: {
+                genres: {
+                    name: {
+                        equals: genreName,
+                        mode: "insensitive",
+                    },
+                },
+            },
+        });
+
+        res.status(200).send(moviesFilteredbyGenreName);
+    } catch (error) {
+        return res
+            .status(500)
+            .send({ message: "Falha ao tentar filtrar Filmes por Gênero" });
+    }
 });
 
 app.listen(port, () => {
