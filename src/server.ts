@@ -52,7 +52,7 @@ app.post("/movies", async (req, res) => {
         return res.status(500).send({ message: "Falha ao cadastrar um filme" });
     }
 
-    res.status(201).send();
+    res.status(201).send({ message: "Filme atualizado com sucesso" });
 });
 
 app.put("/movies/:id", async (req, res) => {
@@ -105,7 +105,7 @@ app.delete("/movies/:id", async (req, res) => {
             .send({ message: "Falha ao tentar remover o Filme" });
     }
 
-    res.status(200).send();
+    res.status(200).send({ message: "Filme removido com sucesso" });
 });
 
 app.get("/movies/:genreName", async (req, res) => {
