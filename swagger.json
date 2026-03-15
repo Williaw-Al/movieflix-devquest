@@ -8,7 +8,7 @@
     "paths": {
         "/movies": {
             "get": {
-                "tags": ["Movies "],
+                "tags": ["Movies"],
                 "summary": "Obter todos os filmes",
                 "responses": {
                     "200": {
@@ -29,7 +29,7 @@
         },
         "/movies/{id}": {
             "put": {
-                "tags": ["Movies "],
+                "tags": ["Movies"],
                 "summary": "Atualizar um filme existente",
                 "parameters": [
                     {
@@ -65,7 +65,7 @@
                 }
             },
             "delete": {
-                "tags": ["Movie"],
+                "tags": ["Movies"],
                 "summary": "Remover um filme",
                 "parameters": [
                     {
@@ -90,6 +90,41 @@
                     }
                 }
             }
+        },
+        "/movies/{genreName}": {
+            "get": {
+                "tags": ["Movies"],
+                "summary": "Filtra os filmes por gênero",
+                "parameters": [
+                    {
+                        "name": "genreName",
+                        "in": "path",
+                        "required": true,
+                        "description": "Gênero do filme",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna uma lista de filmes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Movie"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Não foi possível remover o filme"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -105,13 +140,39 @@
                         "type": "string",
                         "description": "Título do filme"
                     },
-                    "genre": {
-                        "type": "string",
+                    "genre_id": {
+                        "type": "integer",
                         "description": "Gênero do filme"
                     },
-                    "language": {
-                        "type": "string",
+                    "genres": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "description": "ID do gênero"
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "Nome do gênero"
+                            }
+                        }
+                    },
+                    "language_id": {
+                        "type": "integer",
                         "description": "Idioma do filme"
+                    },
+                    "languages": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "description": "ID do Idioma"
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "Nome do Idioma"
+                            }
+                        }
                     },
                     "oscar_count": {
                         "type": "integer",
