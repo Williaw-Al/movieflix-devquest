@@ -220,6 +220,32 @@
                         "description": "Erro interno do servidor"
                     }
                 }
+            },
+            "delete": {
+                "tags": ["Genres"],
+                "summary": "Remover um gênero",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID do gênero a ser removido",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Gênero removido com sucesso"
+                    },
+                    "404": {
+                        "description": "O Gênero não foi encontrado"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
             }
         }
     },
