@@ -127,6 +127,25 @@
             }
         },
         "/genres": {
+            "get": {
+                "tags": ["Genres"],
+                "summary": "Obter lista dos gêneros",
+                "responses": {
+                    "200": {
+                        "description": "Retorna uma lista de gêneros",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GenreList"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            },
             "post": {
                 "tags": ["Genres"],
                 "summary": "Cadastrar um novo gênero",
@@ -292,6 +311,20 @@
                         "type": "string",
                         "format": "date",
                         "description": "Data de lançamento do filme"
+                    }
+                }
+            },
+            "GenreList": {
+                "type": "object",
+                "required": ["id", "name"],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "ID do gênero"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Nome do gênero"
                     }
                 }
             },

@@ -135,10 +135,21 @@ app.delete("/movies/:id", async (req, res) => {
     res.status(200).send({ message: "Filme removido com sucesso" });
 });
 
-app.get("/genres", async (req, res) => {
-    const list = await prisma.genre.findMany();
-    console.log(list);
-    res.send();
+app.get("/genres", async (_, res) => {
+    try {
+        const genreList = await prisma.genre.findMany({
+            orderBy: {
+                id: "asc",
+            },
+        });
+
+        res.status(200).json(genreList);
+    } catch (error) {
+        console.error(error);
+        return res
+            .status(500)
+            .send({ message: "Erro interno ao listar gêneros." });
+    }
 });
 
 app.post("/genres", async (req, res) => {
@@ -170,7 +181,7 @@ app.post("/genres", async (req, res) => {
             data: { name },
         });
 
-        res.status(200).json({
+        res.status(201).json({
             message: "Gênero adicionado com sucesso.",
             newGenre,
         });
