@@ -1,0 +1,13 @@
+services:
+    movieflix:
+        build: .
+        image: movieflix-api
+        container_name: movieflix
+        ports:
+            - "3000:3000"
+        env_file:
+            - .env.docker
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        volumes:
+            - ./data/movieflix:/var/lib/movieflix
